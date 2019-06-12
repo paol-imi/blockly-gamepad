@@ -1,0 +1,22 @@
+{
+  "name": "gamepad.js",
+  "version": "1.0.0",
+  "description": "[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)\r [![GitHub release](https://img.shields.io/github/release/Paol-imi/gamepad.js.svg)](https://GitHub.com/Paol-imi/gamepad.js/releases/)",
+  "main": "gamepad.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Paol-imi/gamepad.js.git"
+  },
+  "dependencies": {
+    "blockly": "github:google/blockly"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Paol-imi/gamepad.js/issues"
+  },
+  "homepage": "https://github.com/Paol-imi/gamepad.js#readme"
+}
