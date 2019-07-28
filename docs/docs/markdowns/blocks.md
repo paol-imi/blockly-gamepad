@@ -276,7 +276,7 @@ class Game{
 ![](../images/can_move.png ":size=150%")
 
 ```javascript
-'turn': {
+'can_move': {
     method: 'PATH',
     args: [{
         field: 'DIRECTION' // the name of the input field

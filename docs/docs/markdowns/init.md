@@ -60,7 +60,7 @@ Blockly.Gamepad.init({
 
 ## Wrap
 
-Wrap a list of default blocks and allow them to generate requests. See more [here](https://paol-imi.github.io/gamepad.js/#/requests?id=Wrap-default-blocks).
+Wrap a list of default blocks and allow them to generate requests. See more [here](https://paol-imi.github.io/gamepad.js/#/requests?id=wrap-the-default-blocks).
 
 ```javascript
 Blockly.Gamepad.init({
