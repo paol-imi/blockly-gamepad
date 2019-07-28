@@ -221,7 +221,7 @@ gamepad.setToolbox({
 ```
 
 ## Examples
-#### Turn
+### Turn
 ![](../images/turn.png ":size=200%")
 
 ```javascript
@@ -272,8 +272,9 @@ class Game{
     }
 }
 ```
-#### Can he move
-![](../images/can_move.png ":size=150%")
+
+### Can he move
+![](../images/can_move.png ":size=220%")
 
 ```javascript
 'can_move': {
@@ -328,8 +329,8 @@ class Game{
 }
 ```
 
-#### Repeat until
-![](../images/repeat_until.png ":size=150%")
+### Repeat until
+![](../images/repeat_until.png ":size=160%")
 
 ```javascript
 'repeat_until': {
@@ -388,9 +389,9 @@ class Game{
 }
 ```
 
-#### If else path
+### If else path
 
-![](../images/if_else_path.png ":size=150%")
+![](../images/if_else_path.png ":size=160%")
 
 ```javascript
 'if_path': {
