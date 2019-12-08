@@ -1,9 +1,9 @@
 {
-  "name": "gamepad.js",
+  "name": "blockly-gamepad",
   "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Paol-imi/gamepad.js.git"
+    "url": "git+https://github.com/Paol-imi/blockly-gamepad.git"
   },
   "dependencies": {
     "blockly": "github:google/blockly"
@@ -11,7 +11,7 @@
   "author": "Paol-imi",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Paol-imi/gamepad.js/issues"
+    "url": "https://github.com/Paol-imi/blockly-gamepad/issues"
   },
-  "homepage": "https://github.com/Paol-imi/gamepad.js#readme"
+  "homepage": "https://github.com/Paol-imi/blockly-gamepad#readme"
 }

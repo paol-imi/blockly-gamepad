@@ -11,6 +11,31 @@ Include all the `Blockly` libraries and the `gamepad` library. Make sure to incl
 <script src="js/gamepad.min.js"></script>
 ```
 
+Also avaible via CDN.
+
+```html
+<!-- ...blockly libraries -->
+<script src="https://unpkg.com/blockly-gamepad"></script>
+```
+
+### CommonJS
+
+The package is also avaible on npm.
+
+```
+mpn install blockly blockly-gamepad
+```
+
+Make sure to include the [javascript](https://developers.google.com/blockly/guides/configure/web/code-generators) code generator.
+
+```javascript
+const Blockly = require('blockly')
+require('blockly/blocks')
+require('blockly/javascript')
+
+const Gamepad = require('blockly-gamepad')
+```
+
 ## Create the Gamepad
 
 Once the libraries are included you can initialize the gamepad and the workspace, then you can create a `Blockly.Gamepad` instance. For the injection see the Blockly [documentation](https://developers.google.com/blockly/guides/get-started/web#injecting_blockly).

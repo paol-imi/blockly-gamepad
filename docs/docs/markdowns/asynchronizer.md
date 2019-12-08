@@ -107,7 +107,7 @@ Calling `asynchronizer.run()` will create a `new instance` of the bomb class. Th
 asynchronizer.run() // asynchronizer.async = new Bomb()
 asynchronizer.async.detonate() // start the countdown
 ```
-The class is stored in asynchronizer.sync. It' possible to pass some `arguments` to the Bomb constructor when it is instantiated using `asynchronizer.run()`, see how in the [chapter](https://paol-imi.github.io/gamepad.js/#/asynchronizer?id=run-function) below.
+The class is stored in asynchronizer.sync. It' possible to pass some `arguments` to the Bomb constructor when it is instantiated using `asynchronizer.run()`, see how in the [chapter](https://paol-imi.github.io/blockly-gamepad/#/asynchronizer?id=run-function) below.
 
 ## Run function
 
@@ -208,7 +208,7 @@ let asynchronizer = new Blockly.Gamepad.Asynchronizer(
 
 ## Game example
 
-Building a game with `gamepad.js` like [the-aviator](https://paol-imi.github.io/the-aviator) may require some management, more or less complicated, of the `asynchronous` part.
+Building a game with `blockly-gamepad` like [the-aviator](https://paol-imi.github.io/the-aviator) may require some management, more or less complicated, of the `asynchronous` part.
 
 For example, if an `animation` is running and you need to reset the full game some problems may occur.
 
@@ -255,4 +255,4 @@ When the `asynchronizer.run()` is called the `loop` start.
 
 When the `asynchronizer.reset()` is called the loop can no longer `access` the this properties, it will crash generating a `Blockly.Gamepad.ERRORS.CLOSED` error. The `animations` are no longer updated by the old instance. 
 
-If you want to see a complete implementation of this class I suggest you to see the `full code` of this [demo](https://github.com/Paol-imi/gamepad.js/tree/master/docs/demo).
+If you want to see a complete implementation of this class I suggest you to see the `full code` of this [demo](https://github.com/Paol-imi/blockly-gamepad/tree/master/docs/demo).
