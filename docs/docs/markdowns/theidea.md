@@ -1,10 +1,10 @@
 # Gamepad.js 🎮
 
-This library was created with the aim of facilitating the creation of game such as the [Maze](https://github.com/Paol-imi/gamepad.js/tree/master/docs/demo) allowing you to interact `asynchronously` with Blockly as you can see in the gif below.
+This library was created with the aim of facilitating the creation of game such as the [Maze](https://github.com/Paol-imi/blockly-gamepad/tree/master/docs/demo) allowing you to interact `asynchronously` with Blockly as you can see in the gif below.
 
 ![](../../demo/images/demo.gif)
 
-With gamepad.js you no longer need to use an `interpreter` or even a `code generator`! The concept is simple:
+With blockly-gamepad you no longer need to use an `interpreter` or even a `code generator`! The concept is simple:
 <br>
 1. _A **block** is executed_
 2. _Your game receives a **request** containing the information of the block_
@@ -15,7 +15,7 @@ That's it.
 
 ## How it works 📘
 
-At first You have to define the structure of the blocks `without any code generator`. All that concerns the generation of code is carried out by the library (See how to define the blocks in this [chapter](https://paol-imi.github.io/gamepad.js/#/blocks)).
+At first You have to define the structure of the blocks `without any code generator`. All that concerns the generation of code is carried out by the library (See how to define the blocks in this [chapter](https://paol-imi.github.io/blockly-gamepad/#/blocks)).
 
 ![](../images/turn.png ":size=160%")
 
@@ -85,4 +85,4 @@ gamepad.backward()
 gamepad.debug(id)
 ```
 
-Look at the next [chapter](https://paol-imi.github.io/gamepad.js/#/workflow).
+Look at the next [chapter](https://paol-imi.github.io/blockly-gamepad/#/workflow).
