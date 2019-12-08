@@ -57,13 +57,11 @@ class Game {
 }
 ```
 
-
-
 ## Wrap the default blocks
 
 ![](../images/requests.gif ":size=560%")
 
-The requests are generated only by the blocks that are initialized with the `gamepad`. <br> With this feature you can wrap the code generators of the standard Blockly blocks (such as the while cycle) to allow them to generate `requests`.
+The requests are not generated only by the blocks that are initialized with the `gamepad`. <br> With this feature you can wrap the code generators of the standard Blockly blocks (such as the while cycle) to allow them to generate `requests`.
 
 ```javascript
 Blockly.Gamepad.init({

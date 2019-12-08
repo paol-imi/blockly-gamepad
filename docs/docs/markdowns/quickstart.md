@@ -10,27 +10,6 @@ Include all the `Blockly` libraries and the `gamepad` library. Make sure to incl
 
 <script src="js/gamepad.min.js"></script>
 ```
-Also avaible as cdn.
-
-```html
-// ...blockly libraries
-
-<script src="https://unpkg.com/blockly-gamepad"></script>
-```
-
-### CommonJs
-
-```
-npm install blockly blockly-gamepad
-```
-
-```javascript
-const Blockly = require('blockly')
-require('blockly/blocks')
-require('blockly/javascript')
-
-const Gamepad = require('blockly-gamepad')
-```
 
 Also avaible via CDN.
 
