@@ -1,12 +1,12 @@
 /* Gamepad class */
-Blockly.Gamepad = class {
+const Gamepad = class {
     constructor(options) {
         options = options || {};
 
         // set the managers
-        this.worker = new Blockly.Gamepad.Worker();
-        this.blocklyManager = new Blockly.Gamepad.BlocklyManager(options);
-        this.jsonManager = new Blockly.Gamepad.JsonManager();
+        this.worker = new Gamepad.Worker();
+        this.blocklyManager = new Gamepad.BlocklyManager(options);
+        this.jsonManager = new Gamepad.JsonManager();
 
         this['magicJson'] = options['magicJson'] === true;
         this['highlight'] = options['customHighlight'] !== undefined;
@@ -45,14 +45,14 @@ Blockly.Gamepad = class {
 
         // if the current level is finished and there's a forward 'START' request (must be forward) the next level is loaded
         // if there's only one level this method is never triggered
-        if (request.method == Blockly.Gamepad['STATES']['STARTED'] &&
-            (this.state == Blockly.Gamepad['STATES']['FINISHED'] || this.state == Blockly.Gamepad['STATES']['COMPLETED']) &&
+        if (request.method == Gamepad['STATES']['STARTED'] &&
+            (this.state == Gamepad['STATES']['FINISHED'] || this.state == Gamepad['STATES']['COMPLETED']) &&
             !back) this.jsonManager.loadNext();
 
         // if the current level is started and there's a 'FINISHED' request (must be backward) the prior level is loaded
         // if there's only one level this method is never triggered
-        if ((request.method == Blockly.Gamepad['STATES']['FINISHED'] || request.method == Blockly.Gamepad['STATES']['COMPLETED']) &&
-            this.state == Blockly.Gamepad['STATES']['STARTED'] &&
+        if ((request.method == Gamepad['STATES']['FINISHED'] || request.method == Gamepad['STATES']['COMPLETED']) &&
+            this.state == Gamepad['STATES']['STARTED'] &&
             back) this.jsonManager.loadPrior();
 
         // if the request is not old and magicJson is enabled
@@ -71,9 +71,9 @@ Blockly.Gamepad = class {
         let result = this.game(request, back, old);
 
         // update the state 
-        if (request.method == Blockly.Gamepad['STATES']['STARTED'] ||
-            request.method == Blockly.Gamepad['STATES']['FINISHED'] ||
-            request.method == Blockly.Gamepad['STATES']['COMPLETED']
+        if (request.method == Gamepad['STATES']['STARTED'] ||
+            request.method == Gamepad['STATES']['FINISHED'] ||
+            request.method == Gamepad['STATES']['COMPLETED']
         ) this.state = request.method;
 
         // if there's the json manager and the request is not old the changes are saved
@@ -97,7 +97,7 @@ Blockly.Gamepad = class {
     // load the code n times
     load(times) {
         // reset the state of the game
-        this.state = Blockly.Gamepad['STATES']['STARTED'];
+        this.state = Gamepad['STATES']['STARTED'];
 
         // if times is setted it must be a number greater than 0
         if ((times !== undefined) && (isNaN(times) || times < 1))
@@ -115,7 +115,7 @@ Blockly.Gamepad = class {
         this.jsonManager.reset();
 
         // load the code
-        Blockly.Gamepad.evalContext(code, this.worker.getInstance());
+        Gamepad.evalContext(code, this.worker.getInstance());
 
         // return the blocks number
         return this.blocklyManager.getBlocksNumber();
@@ -124,7 +124,7 @@ Blockly.Gamepad = class {
     // reset the gamepad
     reset() {
         // reset the state of the game
-        this.state = Blockly.Gamepad['STATES']['STARTED'];
+        this.state = Gamepad['STATES']['STARTED'];
         // reset the jsonManager
         this.jsonManager.reset();
         // reset the worker
@@ -197,29 +197,29 @@ Blockly.Gamepad = class {
 
     // version
     static version() {
-        return '1.0.0';
+        return '1.0.1';
     }
 }
 
 /* Gamepad symbol */
 // a global symbol (used in Observer and Asynchronizer classes)
-Blockly.Gamepad['SYMBOL'] = Symbol('gamepad.js');
+Gamepad['SYMBOL'] = Symbol('blockly-gamepad');
 
 /* Gamebad toolbox */
 // will contain a json that represent the toolbox
-Blockly.Gamepad['TOOLBOX'] = {}
+Gamepad['TOOLBOX'] = {}
 
 /* Gamebad context */
 // global context that the code generator can access
-Blockly.Gamepad['CONTEXT'] = {}
+Gamepad['CONTEXT'] = {}
 
 /* Gamebad inputs */
 // will contain some inputs
-Blockly.Gamepad['INPUTS'] = {}
+Gamepad['INPUTS'] = {}
 
 /* Gamepad errors */
 // strings that represents errors
-Blockly.Gamepad['ERRORS'] = {
+Gamepad['ERRORS'] = {
     // this error means that the instance that throw it has been resetted
     // used by Asynchronizer and the Queue
     'CLOSED': 'CLOSED',
@@ -231,7 +231,7 @@ Blockly.Gamepad['ERRORS'] = {
 
 /* Gamepad states */
 // states are passed in the request .method field
-Blockly.Gamepad['STATES'] = {
+Gamepad['STATES'] = {
     // a level is started
     'STARTED': 'STARTED',
     // a level is finished
@@ -241,14 +241,14 @@ Blockly.Gamepad['STATES'] = {
 }
 
 /* Gamepad blocks */
-Blockly.Gamepad['BLOCKS'] = {
+Gamepad['BLOCKS'] = {
     // the type of the start block
     'START': 'start'
 }
 
 /* Gamepad templates */
 // templates are used to generate custom blocks
-Blockly.Gamepad['TEMPLATES'] = {
+Gamepad['TEMPLATES'] = {
     'WHILE': 'while',
     'DO_WHILE': 'do_while',
     'IF': 'if',
@@ -256,7 +256,7 @@ Blockly.Gamepad['TEMPLATES'] = {
 }
 
 /* Gamepad utils */
-Blockly.Gamepad.utils = {
+Gamepad.utils = {
     /* xml to json */
     xml2json: function (xml, tab) {
         var X = {
@@ -450,7 +450,7 @@ Blockly.Gamepad.utils = {
         if (json.CATEGORY) {
             let i;
             for (i = 0; i < json.CATEGORY.length; i++) {
-                if (!Blockly.Gamepad.utils.filter(json.CATEGORY[i], options)) {
+                if (!Gamepad.utils.filter(json.CATEGORY[i], options)) {
                     json.CATEGORY.splice(i, 1);
                     i--;
                 }
@@ -495,9 +495,9 @@ Blockly.Gamepad.utils = {
             }
 
             if ('template' in block) {
-                // template must be one of the Blockly.Gamepad['TEMPLATES']
-                if (!Object.values(Blockly.Gamepad['TEMPLATES']).includes(block.template))
-                    throw new Error('template must be one of Blockly.Gamepad[\'TEMPLATES\']');
+                // template must be one of the Gamepad['TEMPLATES']
+                if (!Object.values(Gamepad['TEMPLATES']).includes(block.template))
+                    throw new Error('template must be one of Gamepad[\'TEMPLATES\']');
 
                 hastemplate = true;
             }
@@ -507,7 +507,7 @@ Blockly.Gamepad.utils = {
             if (!hastemplate && hasStatements) throw new Error('statements setted without the template');
 
             // load the javascript
-            Blockly.JavaScript['' + type] = Blockly.Gamepad.utils.js(block.method, block.args, block.order, block.template, block.statements);
+            Blockly.JavaScript['' + type] = Gamepad.utils.js(block.method, block.args, block.order, block.template, block.statements);
 
             // init the block with the json or the javascript
             if ('json' in block) {
@@ -545,7 +545,7 @@ Blockly.Gamepad.utils = {
                     for (var e = [], f = 0; f < a.arguments_.length; f++) e[f] = Blockly.JavaScript.variableDB_.getName(a.arguments_[f], Blockly.Variables.NAME_TYPE);
 
                     c = "async function " + b + "(" + e.join(", ") + ") {\n" +
-                        Blockly.Gamepad.utils.request(type, [b], a.id) +
+                        Gamepad.utils.request(type, [b], a.id) +
                         c + d + "\n" +
                         "}";
                     c = Blockly.JavaScript.scrub_(a, c);
@@ -556,7 +556,7 @@ Blockly.Gamepad.utils = {
                 // default wrap
                 default: Blockly.JavaScript[type] = function (block) {
                     let result = oldGenerator.apply(this, [...arguments]),
-                        request = Blockly.Gamepad.utils.request(type, [], block.id);
+                        request = Gamepad.utils.request(type, [], block.id);
 
                     // if there's a order
                     Array.isArray(result)
@@ -580,7 +580,7 @@ Blockly.Gamepad.utils = {
     /* request string builder */
     request: function (method, args, id, order) {
         // check the arguments
-        let request = Blockly.Gamepad.utils.build(method, args, id);
+        let request = Gamepad.utils.build(method, args, id);
 
         method = `method: \'${request.method}\'`;
         args = `args: ${JSON.stringify(request.args)}`;
@@ -611,7 +611,7 @@ Blockly.Gamepad.utils = {
                     _args.push(get(block.getFieldValue(arg.field)));
                     // input
                 } else if (arg.input != undefined) {
-                    _args.push(get(Blockly.Gamepad['INPUTS'][arg.input]));
+                    _args.push(get(Gamepad['INPUTS'][arg.input]));
                     // value
                 } else if (arg.value != undefined) {
                     _args.push(get(arg.value));
@@ -625,58 +625,62 @@ Blockly.Gamepad.utils = {
 
             // build the template
             switch (template) {
-                case Blockly.Gamepad['TEMPLATES']['WHILE']:
-                    return 'while(' + Blockly.Gamepad.utils.request(method, _args, block.id) + '){\n' + _statements[0] + '}';
-                case Blockly.Gamepad['TEMPLATES']['DO_WHILE']:
-                    return 'do{' + _statements[0] + '}while{\n' + Blockly.Gamepad.utils.request(method, _args, block.id) + '}';
-                case Blockly.Gamepad['TEMPLATES']['IF']:
-                    return 'if(' + Blockly.Gamepad.utils.request(method, _args, block.id) + '){\n' + _statements[0] + '}';
-                case Blockly.Gamepad['TEMPLATES']['IF_ELSE']:
-                    return 'if(' + Blockly.Gamepad.utils.request(method, _args, block.id) + '){\n' + _statements[0] + '}else{' + _statements[1] + '}';
+                case Gamepad['TEMPLATES']['WHILE']:
+                    return 'while(' + Gamepad.utils.request(method, _args, block.id) + '){\n' + _statements[0] + '}';
+                case Gamepad['TEMPLATES']['DO_WHILE']:
+                    return 'do{' + _statements[0] + '}while{\n' + Gamepad.utils.request(method, _args, block.id) + '}';
+                case Gamepad['TEMPLATES']['IF']:
+                    return 'if(' + Gamepad.utils.request(method, _args, block.id) + '){\n' + _statements[0] + '}';
+                case Gamepad['TEMPLATES']['IF_ELSE']:
+                    return 'if(' + Gamepad.utils.request(method, _args, block.id) + '){\n' + _statements[0] + '}else{' + _statements[1] + '}';
                 // simple request
                 default:
-                    return Blockly.Gamepad.utils.request(method, _args, block.id, order);
+                    return Gamepad.utils.request(method, _args, block.id, order);
             }
         }
     },
     /* code string builder */
     code: function (code, times) {
-        // throwing Blockly.Gamepad["ERRORS"]["FINISHED"] will end a level
-        // throwing Blockly.Gamepad["ERRORS"]["COMPLETED"] will end all the levels
+        // throwing Gamepad["ERRORS"]["FINISHED"] will end a level
+        // throwing Gamepad["ERRORS"]["COMPLETED"] will end all the levels
 
         //  try{
+        //
         //      try{
-        //          await worker.setRequest({method: Blockly.Gamepad["STATES"]["STARTED"], id: Blockly.Gamepad["STATES"]["STARTED"]});
+        //          await worker.setRequest({method: Gamepad["STATES"]["STARTED"], id: Gamepad["STATES"]["STARTED"]});
         //          ...
-        //          await worker.setRequest({method: Blockly.Gamepad["STATES"]["FINISHED"], id: Blockly.Gamepad["STATES"]["FINISHED"]});
+        //          await worker.setRequest({method: Gamepad["STATES"]["FINISHED"], id: Gamepad["STATES"]["FINISHED"]});
         //      }catch(error){ 
-        //          if(error != Blockly.Gamepad["ERRORS"]["FINISHED"]) throw error; 
+        //          if(error != Gamepad["ERRORS"]["FINISHED"]) throw error; 
         //      }
+        //
         //      try{
-        //          await worker.setRequest({method: Blockly.Gamepad["STATES"]["STARTED"], id: Blockly.Gamepad["STATES"]["STARTED"]});
+        //          await worker.setRequest({method: Gamepad["STATES"]["STARTED"], id: Gamepad["STATES"]["STARTED"]});
         //          ...
-        //          await worker.setRequest({method: Blockly.Gamepad["STATES"]["FINISHED"], id: Blockly.Gamepad["STATES"]["FINISHED"]});
+        //          await worker.setRequest({method: Gamepad["STATES"]["FINISHED"], id: Gamepad["STATES"]["FINISHED"]});
         //      }catch(error){ 
-        //          if(error != Blockly.Gamepad["ERRORS"]["FINISHED"]) throw error; 
+        //          if(error != Gamepad["ERRORS"]["FINISHED"]) throw error; 
         //      }
-        //      await worker.setRequest({method: Blockly.Gamepad["STATES"]["COMPLETED"], id: Blockly.Gamepad["STATES"]["COMPLETED"]});
+        //
+        //      await worker.setRequest({method: Gamepad["STATES"]["COMPLETED"], id: Gamepad["STATES"]["COMPLETED"]});
+        //
         //  }catch(error){
-        //      if(err != Blockly.Gamepad["ERRORS"]["COMPLETED"]) throw err;
+        //      if(error != Gamepad["ERRORS"]["COMPLETED"]) throw error;
         //  }
 
         code = ('try {\n' +
-            Blockly.Gamepad.utils.request(Blockly.Gamepad['STATES']['STARTED'], [], Blockly.Gamepad['STATES']['STARTED']) +
+            Gamepad.utils.request(Gamepad['STATES']['STARTED'], [], Gamepad['STATES']['STARTED']) +
             code +
-            Blockly.Gamepad.utils.request(Blockly.Gamepad['STATES']['FINISHED'], [], Blockly.Gamepad['STATES']['FINISHED']) +
-            '} catch(error) { if(error != Blockly.Gamepad["ERRORS"]["FINISHED"]) throw error; }\n').repeat(times);
+            Gamepad.utils.request(Gamepad['STATES']['FINISHED'], [], Gamepad['STATES']['FINISHED']) +
+            '} catch(error) { if(error != Gamepad["ERRORS"]["FINISHED"]) throw error; }\n').repeat(times);
 
         return ('async function f() {\n' +
             '   try{\n' +
             code +
             // send the COMPLETED request only if there are more levels
-            (times > 1 ? Blockly.Gamepad.utils.request(Blockly.Gamepad['STATES']['COMPLETED'], [], Blockly.Gamepad["STATES"]["COMPLETED"]) : '') +
+            (times > 1 ? Gamepad.utils.request(Gamepad['STATES']['COMPLETED'], [], Gamepad["STATES"]["COMPLETED"]) : '') +
             '       worker.close();\n' +
-            '   }catch(error){ if(error != Blockly.Gamepad["ERRORS"]["COMPLETED"]) { throw error; } }\n' +
+            '   }catch(error){ if(error != Gamepad["ERRORS"]["COMPLETED"]) { throw error; } }\n' +
             '   }\n' +
             'f();');
     },
@@ -710,13 +714,13 @@ Blockly.Gamepad.utils = {
     },
     /* error handler */
     errorHandler: function (error) {
-        if (error !== Blockly.Gamepad['ERRORS']['CLOSED'])
+        if (error !== Gamepad['ERRORS']['CLOSED'])
             throw error;
     }
 }
 
 /* Gamepad settings loader */
-Blockly.Gamepad.setting = function () {
+Gamepad.setting = function () {
     // add clear method to the trashcan
     Blockly.Trashcan.prototype.clear = function () {
         this.contents_ = new Array();
@@ -756,7 +760,7 @@ Blockly.Gamepad.setting = function () {
         return "await " + b + "(" + c.join(", ") + ");\n"
     }
 
-    Blockly.JavaScript[Blockly.Gamepad['BLOCKS']['START']] = function () {
+    Blockly.JavaScript[Gamepad['BLOCKS']['START']] = function () {
         return '';
     }
 
@@ -765,7 +769,7 @@ Blockly.Gamepad.setting = function () {
 
     // define the start block
     Blockly.defineBlocksWithJsonArray([{
-        "type": Blockly.Gamepad['BLOCKS']['START'],
+        "type": Gamepad['BLOCKS']['START'],
         "message0": "Start",
         "deletable_": false,
         "lastDummyAlign0": "CENTRE",
@@ -775,7 +779,7 @@ Blockly.Gamepad.setting = function () {
 }
 
 /* Gamepad init function */
-Blockly.Gamepad.init = function (options) {
+Gamepad.init = function (options) {
     if (!Blockly) throw new Error('Blockly library not included');
     if (!Blockly.hasOwnProperty('JavaScript')) throw new Error('JavaScript generator library not included');
 
@@ -785,19 +789,19 @@ Blockly.Gamepad.init = function (options) {
     // load the inputs
     if (options.hasOwnProperty('inputs')) this['INPUTS'] = options.inputs;
     // load the toolbox
-    if (options.hasOwnProperty('toolbox')) this['TOOLBOX'] = Blockly.Gamepad.utils.xml2json(options.toolbox, "");
+    if (options.hasOwnProperty('toolbox')) this['TOOLBOX'] = Gamepad.utils.xml2json(options.toolbox, "");
     // load the context
     if (options.hasOwnProperty('context')) this['CONTEXT'] = options.context;
 
     // load the blocks
-    if (options.hasOwnProperty('blocks')) Blockly.Gamepad.utils.blocks(options.blocks, "");
+    if (options.hasOwnProperty('blocks')) Gamepad.utils.blocks(options.blocks, "");
     // wrap standar blocks
-    if (options.hasOwnProperty('wrap')) Blockly.Gamepad.utils.wrap(options.wrap, "");
+    if (options.hasOwnProperty('wrap')) Gamepad.utils.wrap(options.wrap, "");
 }
 
 /* Gamepad BlocklyManager */
 // this class manage the workspace and the code generation
-Blockly.Gamepad.BlocklyManager = class {
+Gamepad.BlocklyManager = class {
     constructor(options) {
         options = options || {}
 
@@ -830,7 +834,7 @@ Blockly.Gamepad.BlocklyManager = class {
 
         // get the code
         let code = Blockly.JavaScript.workspaceToCode(this.workspace);
-        code = Blockly.Gamepad.utils.code(code, times);
+        code = Gamepad.utils.code(code, times);
 
         return code;
     }
@@ -840,7 +844,7 @@ Blockly.Gamepad.BlocklyManager = class {
         let blocks = this.workspace.getTopBlocks();
         // remove all the blocks expect the start block and the functions
         for (let block of blocks) {
-            if (!block.type.includes('procedures_def') && (!this.start || (block.type != Blockly.Gamepad['BLOCKS']['START'])))
+            if (!block.type.includes('procedures_def') && (!this.start || (block.type != Gamepad['BLOCKS']['START'])))
                 block.dispose(false);
         }
     }
@@ -855,7 +859,7 @@ Blockly.Gamepad.BlocklyManager = class {
 
         // if start is enabled the block is generated
         if (this.start) {
-            this.parentBlock = this.workspace.newBlock(Blockly.Gamepad['BLOCKS']['START'], Blockly.Gamepad['STATES']['STARTED']);
+            this.parentBlock = this.workspace.newBlock(Gamepad['BLOCKS']['START'], Gamepad['STATES']['STARTED']);
             this.parentBlock.setDeletable(false);
             this.parentBlock.startHat_ = true;
             this.parentBlock.initSvg();
@@ -875,19 +879,19 @@ Blockly.Gamepad.BlocklyManager = class {
     setToolbox(options) {
         if (!options) return;
         // get the toolbox object
-        let toolbox = JSON.parse(Blockly.Gamepad['TOOLBOX']);
+        let toolbox = JSON.parse(Gamepad['TOOLBOX']);
 
         // show some blocks
         if ('blocks' in options) {
             if (!Array.isArray(options.blocks)) throw new Error('options.blocks must be an array.');
 
             // filter the json
-            Blockly.Gamepad.utils.filter(toolbox.XML, options);
+            Gamepad.utils.filter(toolbox.XML, options);
 
-            this.workspace.updateToolbox(Blockly.Gamepad.utils.json2xml(toolbox));
+            this.workspace.updateToolbox(Gamepad.utils.json2xml(toolbox));
             // show all blocks
         } else if ('all' in options) {
-            this.workspace.updateToolbox(Blockly.Gamepad.utils.json2xml(toolbox));
+            this.workspace.updateToolbox(Gamepad.utils.json2xml(toolbox));
         }
     }
 
@@ -957,7 +961,7 @@ Blockly.Gamepad.BlocklyManager = class {
                 let blocks = this.workspace.getTopBlocks();
 
                 for (let block of blocks) {
-                    if (block.type == Blockly.Gamepad['BLOCKS']['START']) return;
+                    if (block.type == Gamepad['BLOCKS']['START']) return;
                 }
 
                 this.reset();
@@ -973,7 +977,7 @@ Blockly.Gamepad.BlocklyManager = class {
 
 /* Gamepad History */
 // this class manage a simple history of events
-Blockly.Gamepad.History = class {
+Gamepad.History = class {
     constructor() {
         this.reset();
     }
@@ -1020,7 +1024,7 @@ Blockly.Gamepad.History = class {
 
 /* Gamepad Queue */
 // this class manage an asynchronous queue
-Blockly.Gamepad.Queue = class {
+Gamepad.Queue = class {
     constructor() {
         // requests
         this.requests = [];
@@ -1041,7 +1045,7 @@ Blockly.Gamepad.Queue = class {
                 // if the queue has been closed the get method will return undefined
                 if (options.close) return resolve(true);
                 // if the queue has been resetted throw the closed error
-                if (options.reset) return reject(Blockly.Gamepad['ERRORS']['CLOSED']);
+                if (options.reset) return reject(Gamepad['ERRORS']['CLOSED']);
 
                 resolve();
             }
@@ -1119,7 +1123,7 @@ Blockly.Gamepad.Queue = class {
 
 /* Gamepad Asynchronizer */
 // this class generate .async instances of a given target
-Blockly.Gamepad.Asynchronizer = class {
+Gamepad.Asynchronizer = class {
     constructor(sync, onRun, onReset) {
         this.sync = sync || {}
         this.async = {}
@@ -1127,7 +1131,7 @@ Blockly.Gamepad.Asynchronizer = class {
         this.onReset = onReset || function () { }
 
         // set the state
-        this.state = Blockly.Gamepad.utils.promiseWrapper();
+        this.state = Gamepad.utils.promiseWrapper();
         this.state.resolve();
 
         // the proxy handler
@@ -1135,9 +1139,9 @@ Blockly.Gamepad.Asynchronizer = class {
             // set the getter
             get: function (obj, prop) {
                 // if has been resetted
-                if (Object.getOwnPropertySymbols(obj).includes(Blockly.Gamepad['SYMBOL']))
-                    // throw Blockly.Gamepad['ERRORS']['CLOSED']
-                    throw Blockly.Gamepad['ERRORS']['CLOSED'];
+                if (Object.getOwnPropertySymbols(obj).includes(Gamepad['SYMBOL']))
+                    // throw Gamepad['ERRORS']['CLOSED']
+                    throw Gamepad['ERRORS']['CLOSED'];
                 else
                     // normal getter
                     return obj[prop];
@@ -1151,10 +1155,10 @@ Blockly.Gamepad.Asynchronizer = class {
         if (this.state.isPending()) return;
 
         // set the state
-        this.state = Blockly.Gamepad.utils.promiseWrapper();
+        this.state = Gamepad.utils.promiseWrapper();
 
         // set the symbol to check if the async has been resetted
-        this.async[Blockly.Gamepad['SYMBOL']] = true;
+        this.async[Gamepad['SYMBOL']] = true;
 
         // call the onReset function
         return this.onReset.apply(this.sync, [...arguments]);
@@ -1192,21 +1196,21 @@ Blockly.Gamepad.Asynchronizer = class {
 
 /* Gamepad Worker */
 // The worker manage the request from the blocks
-Blockly.Gamepad.Worker = function () {
-    const asynchronizer = new Blockly.Gamepad.Asynchronizer(
+Gamepad.Worker = function () {
+    const asynchronizer = new Gamepad.Asynchronizer(
         {
             // history for the old requests
-            history: new Blockly.Gamepad.History(),
+            history: new Gamepad.History(),
             // queue for forward/backward requests
-            queue: new Blockly.Gamepad.Queue(),
+            queue: new Gamepad.Queue(),
             // queue for blocks's requests
-            requests: new Blockly.Gamepad.Queue(),
+            requests: new Gamepad.Queue(),
             // debugger
             debugger: {
                 // id of the block used as breakpoint
                 id: null,
                 // promise resolved on breakpoint reached
-                promise: Blockly.Gamepad.utils.promiseWrapper()
+                promise: Gamepad.utils.promiseWrapper()
             },
             // if the worker is running
             isRunning: false,
@@ -1273,7 +1277,7 @@ Blockly.Gamepad.Worker = function () {
                     this.debugger.promise.resolve(false);
                 // set the debugger
                 this.debugger.id = id;
-                this.debugger.promise = Blockly.Gamepad.utils.promiseWrapper();
+                this.debugger.promise = Gamepad.utils.promiseWrapper();
 
                 // don't return the wrapped promise
                 return this.debugger.promise.then(result => result);
@@ -1304,7 +1308,7 @@ Blockly.Gamepad.Worker = function () {
                     }
                 } catch (error) {
                     // don't throw the error if the worker has been resetted
-                    Blockly.Gamepad.utils.errorHandler(error);
+                    Gamepad.utils.errorHandler(error);
                 }
             }
 
@@ -1349,19 +1353,19 @@ Blockly.Gamepad.Worker = function () {
                 if (this.history.current) {
                     // it's possible that a block pass the 'FINISHED' state
                     // when it's passed the upcoming requests need to be killed until the next 'STARTED' state
-                    if (this.history.current.method == Blockly.Gamepad['STATES']['FINISHED']) {
-                        if (request.request.method != Blockly.Gamepad['STATES']['STARTED'] && request.request.method != Blockly.Gamepad['STATES']['COMPLETED']) {
-                            // throwing Blockly.Gamepad['STATES']['FINISHED'] will kill all the requests until the next 'STARTED' state 
-                            request.reject(Blockly.Gamepad['ERRORS']['FINISHED']);
+                    if (this.history.current.method == Gamepad['STATES']['FINISHED']) {
+                        if (request.request.method != Gamepad['STATES']['STARTED'] && request.request.method != Gamepad['STATES']['COMPLETED']) {
+                            // throwing Gamepad['STATES']['FINISHED'] will kill all the requests until the next 'STARTED' state 
+                            request.reject(Gamepad['ERRORS']['FINISHED']);
                             return;
                         }
                     }
 
                     // it's possible that a block pass the 'COMPLETED' state
                     // when it's passed all the requests need to be killed
-                    if (this.history.current.method == Blockly.Gamepad['STATES']['COMPLETED']) {
-                        // throwing Blockly.Gamepad['STATES']['COMPLETED'] will kill all the requests
-                        request.reject(Blockly.Gamepad['ERRORS']['COMPLETED']);
+                    if (this.history.current.method == Gamepad['STATES']['COMPLETED']) {
+                        // throwing Gamepad['STATES']['COMPLETED'] will kill all the requests
+                        request.reject(Gamepad['ERRORS']['COMPLETED']);
                         this.stop();
                         return;
                     }
@@ -1382,34 +1386,34 @@ Blockly.Gamepad.Worker = function () {
                     // all the upcoming requests are killed until the next 'STARTED' state
                     // the current request is now the 'FINISHED' one but it is not passed to the game
                     this.history.add(
-                        Blockly.Gamepad.utils.build(Blockly.Gamepad['STATES']['FINISHED'], [], Blockly.Gamepad['STATES']['FINISHED'], { generated: true }),
+                        Gamepad.utils.build(Gamepad['STATES']['FINISHED'], [], Gamepad['STATES']['FINISHED'], { generated: true }),
                         true
                     );
                     // load the request
                     this.history.next;
 
                     // debug check because that request is loaded but it is not passed to the game
-                    debug(Blockly.Gamepad['STATES']['FINISHED']);
+                    debug(Gamepad['STATES']['FINISHED']);
 
                     // throw the error
-                    request.reject(Blockly.Gamepad['ERRORS']['FINISHED']);
+                    request.reject(Gamepad['ERRORS']['FINISHED']);
 
                 } else if (result.completed) {
                     // if result.finished reject the 'COMPLETED' error
                     // all the requests are killed
                     // the current request is now the 'COMPLETED' one but it is not passed to the game
                     this.history.add(
-                        Blockly.Gamepad.utils.build(Blockly.Gamepad['STATES']['COMPLETED'], [], Blockly.Gamepad['STATES']['COMPLETED'], { generated: true }),
+                        Gamepad.utils.build(Gamepad['STATES']['COMPLETED'], [], Gamepad['STATES']['COMPLETED'], { generated: true }),
                         true
                     );
                     // load the request
                     this.history.next;
 
                     // debug check because that request is loaded but it is not passed to the game
-                    debug(Blockly.Gamepad['STATES']['COMPLETED']);
+                    debug(Gamepad['STATES']['COMPLETED']);
 
                     // throw the error
-                    request.reject(Blockly.Gamepad['ERRORS']['COMPLETED']);
+                    request.reject(Gamepad['ERRORS']['COMPLETED']);
 
                     // close the worker
                     this.close();
@@ -1476,7 +1480,7 @@ Blockly.Gamepad.Worker = function () {
             try {
                 return ac[method].apply(ac, [...arguments]);
             } catch (error) {
-                Blockly.Gamepad.utils.errorHandler(error);
+                Gamepad.utils.errorHandler(error);
             }
         }
     }
@@ -1498,9 +1502,9 @@ Blockly.Gamepad.Worker = function () {
 }
 
 /* eval function */
-Blockly.Gamepad.evalContext = function (code, worker) {
+Gamepad.evalContext = function (code, worker) {
     try {
-        let CONTEXT = Blockly.Gamepad['CONTEXT'];
+        let CONTEXT = Gamepad['CONTEXT'];
         eval(code);
     } catch (err) {
         console.error('There\'s an error in the code: \n', code);
@@ -1510,7 +1514,7 @@ Blockly.Gamepad.evalContext = function (code, worker) {
 
 /* Gamepad observer */
 // the observer instances are used to manage the magicJson options
-Blockly.Gamepad.observer = {
+Gamepad.observer = {
     // insert event
     INSERT: 'insert',
     // update event
@@ -1547,13 +1551,13 @@ Blockly.Gamepad.observer = {
         // reverse
         revoke: {
             value: function () {
-                this[Blockly.Gamepad['SYMBOL']].revoke();
+                this[Gamepad['SYMBOL']].revoke();
             }
         },
         // observe changes
         observe: {
             value: function (observer, options) {
-                let systemObserver = this[Blockly.Gamepad['SYMBOL']],
+                let systemObserver = this[Gamepad['SYMBOL']],
                     observers = systemObserver.observers;
 
                 if (typeof observer !== 'function') {
@@ -1568,7 +1572,7 @@ Blockly.Gamepad.observer = {
         // unobserve
         unobserve: {
             value: function () {
-                let systemObserver = this[Blockly.Gamepad['SYMBOL']],
+                let systemObserver = this[Gamepad['SYMBOL']],
                     observers = systemObserver.observers,
                     l;
                 if (observers.size) {
@@ -1590,18 +1594,18 @@ Blockly.Gamepad.observer = {
             item;
         let target = new Array(source.length);
         // bind the observer
-        target[Blockly.Gamepad['SYMBOL']] = observer;
+        target[Gamepad['SYMBOL']] = observer;
         // prepare the children
         while (l--) {
             item = source[l];
-            if (item && typeof item === 'object' && !Blockly.Gamepad.observer.nonObservables.hasOwnProperty(item.constructor.name)) {
+            if (item && typeof item === 'object' && !Gamepad.observer.nonObservables.hasOwnProperty(item.constructor.name)) {
                 target[l] = Array.isArray(item) ?
-                    new Blockly.Gamepad.ArrayObserver({
+                    new Gamepad.ArrayObserver({
                         target: item,
                         ownKey: l,
                         parent: observer
                     }).proxy :
-                    new Blockly.Gamepad.ObjectObserver({
+                    new Gamepad.ObjectObserver({
                         target: item,
                         ownKey: l,
                         parent: observer
@@ -1619,20 +1623,20 @@ Blockly.Gamepad.observer = {
             key, item;
         let target = {
             // bind the observer
-            [Blockly.Gamepad['SYMBOL']]: observer
+            [Gamepad['SYMBOL']]: observer
         }
         // prepare the children
         while (l--) {
             key = keys[l];
             item = source[key];
-            if (item && typeof item === 'object' && !Blockly.Gamepad.observer.nonObservables.hasOwnProperty(item.constructor.name)) {
+            if (item && typeof item === 'object' && !Gamepad.observer.nonObservables.hasOwnProperty(item.constructor.name)) {
                 target[key] = Array.isArray(item) ?
-                    new Blockly.Gamepad.ArrayObserver({
+                    new Gamepad.ArrayObserver({
                         target: item,
                         ownKey: key,
                         parent: observer
                     }).proxy :
-                    new Blockly.Gamepad.ObjectObserver({
+                    new Gamepad.ObjectObserver({
                         target: item,
                         ownKey: key,
                         parent: observer
@@ -1692,73 +1696,73 @@ Blockly.Gamepad.observer = {
     },
     // load single change
     loadChange: function (observer, change) {
-        let { target, key } = Blockly.Gamepad.observer.getLastProp(observer, change.path);
+        let { target, key } = Gamepad.observer.getLastProp(observer, change.path);
         // objects and arrays need different changes with the INSERT and DELETE events
         if (Array.isArray(target)) {
-            if (change.type == Blockly.Gamepad.observer.INSERT) {
+            if (change.type == Gamepad.observer.INSERT) {
                 // if the key isn't a number the if is false and it will set the value correctly
                 if (target.length > key)
                     target.splice(key, 0, change.value);
                 else
                     target[key] = change.value;
             }
-            if (change.type == Blockly.Gamepad.observer.DELETE) target.splice(key, 1);
+            if (change.type == Gamepad.observer.DELETE) target.splice(key, 1);
         } else {
-            if (change.type == Blockly.Gamepad.observer.INSERT) target[key] = change.value;
-            if (change.type == Blockly.Gamepad.observer.DELETE) delete target[key];
+            if (change.type == Gamepad.observer.INSERT) target[key] = change.value;
+            if (change.type == Gamepad.observer.DELETE) delete target[key];
         }
 
         // array only changes
-        if (change.type == Blockly.Gamepad.observer.PUSH) target[key].push.apply(target, change.value);
-        if (change.type == Blockly.Gamepad.observer.POP) target[key].pop();
-        if (change.type == Blockly.Gamepad.observer.UNSHIFT) target[key].unshift.apply(target, change.value);
-        if (change.type == Blockly.Gamepad.observer.SHIFT) target[key].shift();
-        if (change.type == Blockly.Gamepad.observer.REVERSE) target[key].reverse();
+        if (change.type == Gamepad.observer.PUSH) target[key].push.apply(target, change.value);
+        if (change.type == Gamepad.observer.POP) target[key].pop();
+        if (change.type == Gamepad.observer.UNSHIFT) target[key].unshift.apply(target, change.value);
+        if (change.type == Gamepad.observer.SHIFT) target[key].shift();
+        if (change.type == Gamepad.observer.REVERSE) target[key].reverse();
         // common changes
-        if (change.type == Blockly.Gamepad.observer.UPDATE) target[key] = change.value;
+        if (change.type == Gamepad.observer.UPDATE) target[key] = change.value;
     },
     // unload single change
     unloadChange: function (observer, change) {
-        let { target, key } = Blockly.Gamepad.observer.getLastProp(observer, change.path);
+        let { target, key } = Gamepad.observer.getLastProp(observer, change.path);
         // objects and arrays need different changes with the INSERT and DELETE events
         if (Array.isArray(target)) {
-            if (change.type == Blockly.Gamepad.observer.INSERT) {
+            if (change.type == Gamepad.observer.INSERT) {
                 // if the key isn't a number the if is false and it will set the value correctly
                 if (target.length > key)
                     target.splice(key, 1);
                 else
                     delete target[key];
             }
-            if (change.type == Blockly.Gamepad.observer.DELETE) target.splice(key, 0, change.oldValue);
+            if (change.type == Gamepad.observer.DELETE) target.splice(key, 0, change.oldValue);
         } else {
-            if (change.type == Blockly.Gamepad.observer.INSERT) delete target[key];
-            if (change.type == Blockly.Gamepad.observer.DELETE) target[key] = change.oldValue;
+            if (change.type == Gamepad.observer.INSERT) delete target[key];
+            if (change.type == Gamepad.observer.DELETE) target[key] = change.oldValue;
         }
 
         // array only changes
-        if (change.type == Blockly.Gamepad.observer.PUSH) {
+        if (change.type == Gamepad.observer.PUSH) {
             for (let i = 0; i < change.value.length; i++) target[key].pop();
         }
-        if (change.type == Blockly.Gamepad.observer.POP) target[key].push(change.oldValue);
-        if (change.type == Blockly.Gamepad.observer.UNSHIFT) {
+        if (change.type == Gamepad.observer.POP) target[key].push(change.oldValue);
+        if (change.type == Gamepad.observer.UNSHIFT) {
             for (let i = 0; i < change.value.length; i++) target[key].shift();
         }
-        if (change.type == Blockly.Gamepad.observer.SHIFT) target[key].unshift(change.oldValue);
-        if (change.type == Blockly.Gamepad.observer.REVERSE) target[key].reverse();
+        if (change.type == Gamepad.observer.SHIFT) target[key].unshift(change.oldValue);
+        if (change.type == Gamepad.observer.REVERSE) target[key].reverse();
         // common changes
-        if (change.type == Blockly.Gamepad.observer.UPDATE) target[key] = change.oldValue;
+        if (change.type == Gamepad.observer.UPDATE) target[key] = change.oldValue;
     },
     // observe a json
     observeJson: function (target) {
-        if (target && typeof target === 'object' && !Blockly.Gamepad.observer.nonObservables.hasOwnProperty(target.constructor.name) && !
+        if (target && typeof target === 'object' && !Gamepad.observer.nonObservables.hasOwnProperty(target.constructor.name) && !
             ('observe' in target) && !('unobserve' in target) && !('revoke' in target)) {
             let observed = Array.isArray(target) ?
-                new Blockly.Gamepad.ArrayObserver({
+                new Gamepad.ArrayObserver({
                     target: target,
                     ownKey: null,
                     parent: null
                 }) :
-                new Blockly.Gamepad.ObjectObserver({
+                new Gamepad.ObjectObserver({
                     target: target,
                     ownKey: null,
                     parent: null
@@ -1771,8 +1775,8 @@ Blockly.Gamepad.observer = {
                 throw new Error(
                     'target object MUST NOT have nor own neither inherited properties from the following list: "observe", "unobserve", "revoke"'
                 );
-            } else if (Blockly.Gamepad.observer.nonObservables.hasOwnProperty(target.constructor.name)) {
-                throw new Error(target + ' found to be one of non-observable object types: ' + Blockly.Gamepad.observer.nonObservables);
+            } else if (Gamepad.observer.nonObservables.hasOwnProperty(target.constructor.name)) {
+                throw new Error(target + ' found to be one of non-observable object types: ' + Gamepad.observer.nonObservables);
             }
         }
     }
@@ -1781,7 +1785,7 @@ Blockly.Gamepad.observer = {
 /* Observer class */
 // the observer class generate a Proxy that wrap a target object
 // It's possible to bind a listener to the changes of the proxy
-Blockly.Gamepad.Observer = class {
+Gamepad.Observer = class {
     constructor(properties, cloningFunction) {
         // prepare the source
         let source = properties.target,
@@ -1792,7 +1796,7 @@ Blockly.Gamepad.Observer = class {
             Object.defineProperty(this, 'observers', {
                 value: new Map()
             });
-            Object.defineProperties(targetClone, Blockly.Gamepad.observer.observableDefinition);
+            Object.defineProperties(targetClone, Gamepad.observer.observableDefinition);
         } else {
             this.parent = properties.parent;
             this.ownKey = properties.ownKey;
@@ -1815,14 +1819,14 @@ Blockly.Gamepad.Observer = class {
             ad, changes;
 
         // prepare the value
-        if (value && typeof value === 'object' && !Blockly.Gamepad.observer.nonObservables.hasOwnProperty(value.constructor.name)) {
+        if (value && typeof value === 'object' && !Gamepad.observer.nonObservables.hasOwnProperty(value.constructor.name)) {
             newValue = Array.isArray(value) ?
-                new Blockly.Gamepad.ArrayObserver({
+                new Gamepad.ArrayObserver({
                     target: value,
                     ownKey: key,
                     parent: this
                 }).proxy :
-                new Blockly.Gamepad.ObjectObserver({
+                new Gamepad.ObjectObserver({
                     target: value,
                     ownKey: key,
                     parent: this
@@ -1834,30 +1838,30 @@ Blockly.Gamepad.Observer = class {
 
         // revoke the old object
         if (oldValue && typeof oldValue === 'object') {
-            let tmpObserved = oldValue[Blockly.Gamepad['SYMBOL']];
+            let tmpObserved = oldValue[Gamepad['SYMBOL']];
             if (tmpObserved) {
                 oldValue = tmpObserved.revoke();
             }
         }
 
         // push changes
-        ad = Blockly.Gamepad.observer.getAncestorInfo(this);
+        ad = Gamepad.observer.getAncestorInfo(this);
         if (!ad) return;
         if (ad.observers.size) {
             ad.path.push(key);
             changes = typeof oldValue === 'undefined' ? [{
-                type: Blockly.Gamepad.observer.INSERT,
+                type: Gamepad.observer.INSERT,
                 path: ad.path,
                 value: newValue,
                 object: this.proxy
             }] : [{
-                type: Blockly.Gamepad.observer.UPDATE,
+                type: Gamepad.observer.UPDATE,
                 path: ad.path,
                 value: newValue,
                 oldValue: oldValue,
                 object: this.proxy
             }];
-            Blockly.Gamepad.observer.callObservers(ad.observers, changes);
+            Gamepad.observer.callObservers(ad.observers, changes);
         }
         return true;
     }
@@ -1870,24 +1874,24 @@ Blockly.Gamepad.Observer = class {
         if (delete target[key]) {
             // revoke the old object
             if (oldValue && typeof oldValue === 'object') {
-                let tmpObserved = oldValue[Blockly.Gamepad['SYMBOL']];
+                let tmpObserved = oldValue[Gamepad['SYMBOL']];
                 if (tmpObserved) {
                     oldValue = tmpObserved.revoke();
                 }
             }
 
             // push changes
-            ad = Blockly.Gamepad.observer.getAncestorInfo(this);
+            ad = Gamepad.observer.getAncestorInfo(this);
             if (!ad) return;
             if (ad.observers.size) {
                 ad.path.push(key);
                 changes = [{
-                    type: Blockly.Gamepad.observer.DELETE,
+                    type: Gamepad.observer.DELETE,
                     path: ad.path,
                     oldValue: oldValue,
                     object: this.proxy
                 }];
-                Blockly.Gamepad.observer.callObservers(ad.observers, changes);
+                Gamepad.observer.callObservers(ad.observers, changes);
             }
             return true;
         } else {
@@ -1898,9 +1902,9 @@ Blockly.Gamepad.Observer = class {
 
 /* Array observer class */
 // observer for arrays
-Blockly.Gamepad.ArrayObserver = class extends Blockly.Gamepad.Observer {
+Gamepad.ArrayObserver = class extends Gamepad.Observer {
     constructor(properties) {
-        super(properties, Blockly.Gamepad.observer.prepareArray);
+        super(properties, Gamepad.observer.prepareArray);
     }
 
     // revoke the observer, now it will work as a normal object
@@ -1916,7 +1920,7 @@ Blockly.Gamepad.ArrayObserver = class extends Blockly.Gamepad.Observer {
             item = target[l];
             // send revoke event to all sons
             if (item && typeof item === 'object') {
-                let tmpObserved = item[Blockly.Gamepad['SYMBOL']];
+                let tmpObserved = item[Gamepad['SYMBOL']];
                 if (tmpObserved) {
                     target[l] = tmpObserved.revoke();
                 }
@@ -1934,17 +1938,17 @@ Blockly.Gamepad.ArrayObserver = class extends Blockly.Gamepad.Observer {
                 let popResult;
                 popResult = target.pop();
                 if (popResult && typeof popResult === 'object') {
-                    let tmpObserved = popResult[Blockly.Gamepad['SYMBOL']];
+                    let tmpObserved = popResult[Gamepad['SYMBOL']];
                     if (tmpObserved) {
                         popResult = tmpObserved.revoke();
                     }
                 }
 
-                let ad = Blockly.Gamepad.observer.getAncestorInfo(observed);
+                let ad = Gamepad.observer.getAncestorInfo(observed);
                 if (!ad) return;
                 if (ad.observers.size) {
-                    Blockly.Gamepad.observer.callObservers(ad.observers, [{
-                        type: Blockly.Gamepad.observer.POP,
+                    Gamepad.observer.callObservers(ad.observers, [{
+                        type: Gamepad.observer.POP,
                         path: ad.path,
                         oldValue: popResult,
                         object: observed.proxy
@@ -1956,20 +1960,20 @@ Blockly.Gamepad.ArrayObserver = class extends Blockly.Gamepad.Observer {
                 let i, l = arguments.length - 2,
                     item, pushContent = new Array(l),
                     pushResult, changes,
-                    initialLength, ad = Blockly.Gamepad.observer.getAncestorInfo(observed);
+                    initialLength, ad = Gamepad.observer.getAncestorInfo(observed);
                 initialLength = target.length;
 
                 for (i = 0; i < l; i++) {
                     item = arguments[i + 2];
-                    if (item && typeof item === 'object' && !Blockly.Gamepad.observer.nonObservables.hasOwnProperty(item
+                    if (item && typeof item === 'object' && !Gamepad.observer.nonObservables.hasOwnProperty(item
                         .constructor.name)) {
                         item = Array.isArray(item) ?
-                            new Blockly.Gamepad.ArrayObserver({
+                            new Gamepad.ArrayObserver({
                                 target: item,
                                 ownKey: initialLength + i,
                                 parent: observed
                             }).proxy :
-                            new Blockly.Gamepad.ObjectObserver({
+                            new Gamepad.ObjectObserver({
                                 target: item,
                                 ownKey: initialLength + i,
                                 parent: observed
@@ -1982,12 +1986,12 @@ Blockly.Gamepad.ArrayObserver = class extends Blockly.Gamepad.Observer {
                 if (!ad) return;
                 if (ad.observers.size) {
                     changes = [{
-                        type: Blockly.Gamepad.observer.PUSH,
+                        type: Gamepad.observer.PUSH,
                         path: ad.path,
                         value: pushContent,
                         object: observed.proxy
                     }]
-                    Blockly.Gamepad.observer.callObservers(ad.observers, changes);
+                    Gamepad.observer.callObservers(ad.observers, changes);
                 }
                 return pushResult;
             },
@@ -1997,7 +2001,7 @@ Blockly.Gamepad.ArrayObserver = class extends Blockly.Gamepad.Observer {
 
                 shiftResult = target.shift();
                 if (shiftResult && typeof shiftResult === 'object') {
-                    let tmpObserved = shiftResult[Blockly.Gamepad['SYMBOL']];
+                    let tmpObserved = shiftResult[Gamepad['SYMBOL']];
                     if (tmpObserved) {
                         shiftResult = tmpObserved.revoke();
                     }
@@ -2006,23 +2010,23 @@ Blockly.Gamepad.ArrayObserver = class extends Blockly.Gamepad.Observer {
                 for (i = 0, l = target.length; i < l; i++) {
                     item = target[i];
                     if (item && typeof item === 'object') {
-                        let tmpObserved = item[Blockly.Gamepad['SYMBOL']];
+                        let tmpObserved = item[Gamepad['SYMBOL']];
                         if (tmpObserved) {
                             tmpObserved.ownKey = i;
                         }
                     }
                 }
 
-                ad = Blockly.Gamepad.observer.getAncestorInfo(observed);
+                ad = Gamepad.observer.getAncestorInfo(observed);
                 if (!ad) return;
                 if (ad.observers.size) {
                     changes = [{
-                        type: Blockly.Gamepad.observer.SHIFT,
+                        type: Gamepad.observer.SHIFT,
                         path: ad.path,
                         oldValue: shiftResult,
                         object: observed.proxy
                     }];
-                    Blockly.Gamepad.observer.callObservers(ad.observers, changes);
+                    Gamepad.observer.callObservers(ad.observers, changes);
                 }
                 return shiftResult;
             },
@@ -2031,15 +2035,15 @@ Blockly.Gamepad.ArrayObserver = class extends Blockly.Gamepad.Observer {
                 unshiftContent = Array.from(arguments);
                 unshiftContent.splice(0, 2);
                 unshiftContent.forEach((item, index) => {
-                    if (item && typeof item === 'object' && !Blockly.Gamepad.observer.nonObservables.hasOwnProperty(item
+                    if (item && typeof item === 'object' && !Gamepad.observer.nonObservables.hasOwnProperty(item
                         .constructor.name)) {
                         unshiftContent[index] = Array.isArray(item) ?
-                            new Blockly.Gamepad.ArrayObserver({
+                            new Gamepad.ArrayObserver({
                                 target: item,
                                 ownKey: index,
                                 parent: observed
                             }).proxy :
-                            new Blockly.Gamepad.ObjectObserver({
+                            new Gamepad.ObjectObserver({
                                 target: item,
                                 ownKey: index,
                                 parent: observed
@@ -2050,24 +2054,24 @@ Blockly.Gamepad.ArrayObserver = class extends Blockly.Gamepad.Observer {
                 for (let i = 0, l = target.length, item; i < l; i++) {
                     item = target[i];
                     if (item && typeof item === 'object') {
-                        let tmpObserved = item[Blockly.Gamepad['SYMBOL']];
+                        let tmpObserved = item[Gamepad['SYMBOL']];
                         if (tmpObserved) {
                             tmpObserved.ownKey = i;
                         }
                     }
                 }
 
-                ad = Blockly.Gamepad.observer.getAncestorInfo(observed);
+                ad = Gamepad.observer.getAncestorInfo(observed);
                 if (!ad) return;
                 if (ad.observers.size) {
                     changes = [{
-                        type: Blockly.Gamepad.observer.UNSHIFT,
+                        type: Gamepad.observer.UNSHIFT,
                         path: ad.path,
                         value: unshiftContent,
                         object: observed.proxy
                     }]
 
-                    Blockly.Gamepad.observer.callObservers(ad.observers, changes);
+                    Gamepad.observer.callObservers(ad.observers, changes);
                 }
                 return unshiftResult;
             },
@@ -2077,22 +2081,22 @@ Blockly.Gamepad.ArrayObserver = class extends Blockly.Gamepad.Observer {
                 for (i = 0, l = target.length; i < l; i++) {
                     item = target[i];
                     if (item && typeof item === 'object') {
-                        let tmpObserved = item[Blockly.Gamepad['SYMBOL']];
+                        let tmpObserved = item[Gamepad['SYMBOL']];
                         if (tmpObserved) {
                             tmpObserved.ownKey = i;
                         }
                     }
                 }
 
-                ad = Blockly.Gamepad.observer.getAncestorInfo(observed);
+                ad = Gamepad.observer.getAncestorInfo(observed);
                 if (!ad) return;
                 if (ad.observers.size) {
                     changes = [{
-                        type: Blockly.Gamepad.observer.REVERSE,
+                        type: Gamepad.observer.REVERSE,
                         path: ad.path,
                         object: observed.proxy
                     }];
-                    Blockly.Gamepad.observer.callObservers(ad.observers, changes);
+                    Gamepad.observer.callObservers(ad.observers, changes);
                 }
                 return observed.proxy;
             },
@@ -2102,29 +2106,29 @@ Blockly.Gamepad.ArrayObserver = class extends Blockly.Gamepad.Observer {
                 for (i = 0, l = target.length; i < l; i++) {
                     item = target[i];
                     if (item && typeof item === 'object') {
-                        let tmpObserved = item[Blockly.Gamepad['SYMBOL']];
+                        let tmpObserved = item[Gamepad['SYMBOL']];
                         if (tmpObserved) {
                             tmpObserved.ownKey = i;
                         }
                     }
                 }
 
-                ad = Blockly.Gamepad.observer.getAncestorInfo(observed);
+                ad = Gamepad.observer.getAncestorInfo(observed);
                 if (!ad) return;
                 if (ad.observers.size) {
                     changes = [{
-                        type: Blockly.Gamepad.observer.UPDATE,
+                        type: Gamepad.observer.UPDATE,
                         value: target,
                         oldValue,
                         path: ad.path,
                         object: observed.proxy
                     }];
-                    Blockly.Gamepad.observer.callObservers(ad.observers, changes);
+                    Gamepad.observer.callObservers(ad.observers, changes);
                 }
                 return observed.proxy;
             },
             fill: function proxiedFill(target, observed) {
-                let ad = Blockly.Gamepad.observer.getAncestorInfo(observed),
+                let ad = Gamepad.observer.getAncestorInfo(observed),
                     normArgs, argLen,
                     start, end, changes = [],
                     prev, tarLen = target.length,
@@ -2139,15 +2143,15 @@ Blockly.Gamepad.ArrayObserver = class extends Blockly.Gamepad.Observer {
 
                 for (let i = start, item, tmpTarget; i < end; i++) {
                     item = target[i];
-                    if (item && typeof item === 'object' && !Blockly.Gamepad.observer.nonObservables.hasOwnProperty(item
+                    if (item && typeof item === 'object' && !Gamepad.observer.nonObservables.hasOwnProperty(item
                         .constructor.name)) {
                         target[i] = Array.isArray(item) ?
-                            new Blockly.Gamepad.ArrayObserver({
+                            new Gamepad.ArrayObserver({
                                 target: item,
                                 ownKey: i,
                                 parent: observed
                             }).proxy :
-                            new Blockly.Gamepad.ObjectObserver({
+                            new Gamepad.ObjectObserver({
                                 target: item,
                                 ownKey: i,
                                 parent: observed
@@ -2156,7 +2160,7 @@ Blockly.Gamepad.ArrayObserver = class extends Blockly.Gamepad.Observer {
                     if (prev.hasOwnProperty(i)) {
                         tmpTarget = prev[i];
                         if (tmpTarget && typeof tmpTarget === 'object') {
-                            let tmpObserved = tmpTarget[Blockly.Gamepad['SYMBOL']];
+                            let tmpObserved = tmpTarget[Gamepad['SYMBOL']];
                             if (tmpObserved) {
                                 tmpTarget = tmpObserved.revoke();
                             }
@@ -2165,7 +2169,7 @@ Blockly.Gamepad.ArrayObserver = class extends Blockly.Gamepad.Observer {
                         path = ad.path.slice(0);
                         path.push(i);
                         changes.push({
-                            type: Blockly.Gamepad.observer.UPDATE,
+                            type: Gamepad.observer.UPDATE,
                             path: path,
                             value: target[i],
                             oldValue: tmpTarget,
@@ -2175,7 +2179,7 @@ Blockly.Gamepad.ArrayObserver = class extends Blockly.Gamepad.Observer {
                         path = ad.path.slice(0);
                         path.push(i);
                         changes.push({
-                            type: Blockly.Gamepad.observer.INSERT,
+                            type: Gamepad.observer.INSERT,
                             path: path,
                             value: target[i],
                             object: observed.proxy
@@ -2185,12 +2189,12 @@ Blockly.Gamepad.ArrayObserver = class extends Blockly.Gamepad.Observer {
 
                 if (!ad) return;
                 if (ad.observers.size) {
-                    Blockly.Gamepad.observer.callObservers(ad.observers, changes);
+                    Gamepad.observer.callObservers(ad.observers, changes);
                 }
                 return observed.proxy;
             },
             splice: function proxiedSplice(target, observed) {
-                let ad = Blockly.Gamepad.observer.getAncestorInfo(observed),
+                let ad = Gamepad.observer.getAncestorInfo(observed),
                     spliceContent, spliceResult, changes = [],
                     tmpObserved,
                     startIndex, removed, inserted, splLen, tarLen = target.length;
@@ -2201,15 +2205,15 @@ Blockly.Gamepad.ArrayObserver = class extends Blockly.Gamepad.Observer {
 
                 for (let i = 2, item; i < splLen; i++) {
                     item = spliceContent[i];
-                    if (item && typeof item === 'object' && !Blockly.Gamepad.observer.nonObservables.hasOwnProperty(item
+                    if (item && typeof item === 'object' && !Gamepad.observer.nonObservables.hasOwnProperty(item
                         .constructor.name)) {
                         spliceContent[i] = Array.isArray(item) ?
-                            new Blockly.Gamepad.ArrayObserver({
+                            new Gamepad.ArrayObserver({
                                 target: item,
                                 ownKey: i,
                                 parent: observed
                             }).proxy :
-                            new Blockly.Gamepad.ObjectObserver({
+                            new Gamepad.ObjectObserver({
                                 target: item,
                                 ownKey: i,
                                 parent: observed
@@ -2227,7 +2231,7 @@ Blockly.Gamepad.ArrayObserver = class extends Blockly.Gamepad.Observer {
                 for (let i = 0, item; i < tarLen; i++) {
                     item = target[i];
                     if (item && typeof item === 'object') {
-                        tmpObserved = item[Blockly.Gamepad['SYMBOL']];
+                        tmpObserved = item[Gamepad['SYMBOL']];
                         if (tmpObserved) {
                             tmpObserved.ownKey = i;
                         }
@@ -2238,7 +2242,7 @@ Blockly.Gamepad.ArrayObserver = class extends Blockly.Gamepad.Observer {
                 for (i = 0, l = spliceResult.length; i < l; i++) {
                     item = spliceResult[i];
                     if (item && typeof item === 'object') {
-                        tmpObserved = item[Blockly.Gamepad['SYMBOL']];
+                        tmpObserved = item[Gamepad['SYMBOL']];
                         if (tmpObserved) {
                             spliceResult[i] = tmpObserved.revoke();
                         }
@@ -2253,7 +2257,7 @@ Blockly.Gamepad.ArrayObserver = class extends Blockly.Gamepad.Observer {
                         path.push(startIndex + index);
                         if (index < inserted) {
                             changes.push({
-                                type: Blockly.Gamepad.observer.UPDATE,
+                                type: Gamepad.observer.UPDATE,
                                 path: path,
                                 value: target[startIndex + index],
                                 oldValue: spliceResult[index],
@@ -2261,7 +2265,7 @@ Blockly.Gamepad.ArrayObserver = class extends Blockly.Gamepad.Observer {
                             });
                         } else {
                             changes.push({
-                                type: Blockly.Gamepad.observer.DELETE,
+                                type: Gamepad.observer.DELETE,
                                 path: path,
                                 oldValue: spliceResult[index],
                                 object: observed.proxy
@@ -2272,13 +2276,13 @@ Blockly.Gamepad.ArrayObserver = class extends Blockly.Gamepad.Observer {
                         path = ad.path.slice(0);
                         path.push(startIndex + index);
                         changes.push({
-                            type: Blockly.Gamepad.observer.INSERT,
+                            type: Gamepad.observer.INSERT,
                             path: path,
                             value: target[startIndex + index],
                             object: observed.proxy
                         });
                     }
-                    Blockly.Gamepad.observer.callObservers(ad.observers, changes);
+                    Gamepad.observer.callObservers(ad.observers, changes);
                 }
                 return spliceResult;
             }
@@ -2293,9 +2297,9 @@ Blockly.Gamepad.ArrayObserver = class extends Blockly.Gamepad.Observer {
 
 /* Object observer class */
 // observer for objects
-Blockly.Gamepad.ObjectObserver = class extends Blockly.Gamepad.Observer {
+Gamepad.ObjectObserver = class extends Gamepad.Observer {
     constructor(properties) {
-        super(properties, Blockly.Gamepad.observer.prepareObject);
+        super(properties, Gamepad.observer.prepareObject);
     }
 
     // revoke the observer, now it will work as a normal object
@@ -2312,7 +2316,7 @@ Blockly.Gamepad.ObjectObserver = class extends Blockly.Gamepad.Observer {
             key = keys[l];
             item = target[key];
             if (item && typeof item === 'object') {
-                let tmpObserved = item[Blockly.Gamepad['SYMBOL']];
+                let tmpObserved = item[Gamepad['SYMBOL']];
                 if (tmpObserved) {
                     target[key] = tmpObserved.revoke();
                 }
@@ -2324,10 +2328,10 @@ Blockly.Gamepad.ObjectObserver = class extends Blockly.Gamepad.Observer {
 
 /* Gamepad Store */
 // this class manage the changes of a single observer
-Blockly.Gamepad.Store = class {
+Gamepad.Store = class {
     constructor(json) {
         // the changes observer
-        this.observer = Blockly.Gamepad.observer.observeJson(json);
+        this.observer = Gamepad.observer.observeJson(json);
         // history of changes
         this.history = [];
         // history index
@@ -2365,7 +2369,7 @@ Blockly.Gamepad.Store = class {
     restore() {
         let changes = this.changes.slice(0);
         while (changes.length > 0)
-            Blockly.Gamepad.observer.unloadChange(this.observer, changes.pop());
+            Gamepad.observer.unloadChange(this.observer, changes.pop());
 
         this.changes = [];
     }
@@ -2385,7 +2389,7 @@ Blockly.Gamepad.Store = class {
 
             // load all changes
             while (++i < changes.length)
-                Blockly.Gamepad.observer.loadChange(this.observer, changes[i]);
+                Gamepad.observer.loadChange(this.observer, changes[i]);
 
             // remove the changes that this process has created
             this.changes = [];
@@ -2404,7 +2408,7 @@ Blockly.Gamepad.Store = class {
 
             // unload all changes
             while (--i >= 0)
-                Blockly.Gamepad.observer.unloadChange(this.observer, changes[i]);
+                Gamepad.observer.unloadChange(this.observer, changes[i]);
 
             // change store
             this.index--;
@@ -2417,7 +2421,7 @@ Blockly.Gamepad.Store = class {
 
 /* Gamepad JsonManager */
 // this class manage multiple stores
-Blockly.Gamepad.JsonManager = class {
+Gamepad.JsonManager = class {
     constructor(json) {
         this.init(json || {});
     }
@@ -2440,9 +2444,9 @@ Blockly.Gamepad.JsonManager = class {
         // load the stores
         if (Array.isArray(this.json)) {
             for (let value of this.json)
-                this.stores.push(new Blockly.Gamepad.Store(value));
+                this.stores.push(new Gamepad.Store(value));
         } else {
-            this.stores.push(new Blockly.Gamepad.Store(this.json));
+            this.stores.push(new Gamepad.Store(this.json));
         }
 
         // the stores should not be changed here
@@ -2501,4 +2505,24 @@ Blockly.Gamepad.JsonManager = class {
 }
 
 /* load the setting */
-Blockly.Gamepad.setting();
+Gamepad.setting();
+
+/* Global */
+(function () {
+
+    // Establish the root object, `window` in the browser, or `global` on the server.
+    var root = this;
+
+    // Export the Underscore object for **CommonJS**, with backwards-compatibility
+    // for the old `require()` API. If we're not in CommonJS
+    if (typeof module !== 'undefined' && module.exports) {
+        const Blockly = require('blockly');
+
+        module.exports = Gamepad;
+        root.Blockly = Blockly;
+        Blockly.Gamepad = Gamepad;
+    } else {
+        if(typeof Blockly !== undefined) 
+            Blockly.Gamepad = Gamepad;
+    }
+})();

@@ -238,7 +238,6 @@ let asynchronizer = new Blockly.Gamepad.Asynchronizer(
     // the .async can no longer acces the game
     // that can be safely resetted in the .sync
     this.game.reset()
-    this.gui.reset()
   }
 )
 

@@ -1,17 +1,27 @@
 {
   "name": "blockly-gamepad",
-  "version": "1.0.0",
+  "version": "1.0.1",
+  "description": "A Blockly extension designed to develop games (made with love ❤).",
+  "keywords": [
+    "gamepad",
+    "blockly",
+    "maze",
+    "game",
+    "async",
+    "await"
+  ],
+  "main": "src/gamepad.js",
+  "homepage": "https://github.com/Paol-imi/blockly-gamepad#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Paol-imi/blockly-gamepad.git"
-  },
-  "dependencies": {
-    "blockly": "github:google/blockly"
   },
   "author": "Paol-imi",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Paol-imi/blockly-gamepad/issues"
   },
-  "homepage": "https://github.com/Paol-imi/blockly-gamepad#readme"
+  "dependencies": {
+    "blockly": "^3.20191014.4"
+  }
 }

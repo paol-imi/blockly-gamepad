@@ -8,12 +8,12 @@ let gamepad = new Blockly.Gamepad({
 })
 ```
 
-!> to understand this chapter it is first necessary to read the [`workflow`](https://paol-imi.github.io/gamepad.js/#/workflow) chapter.
+!> to understand this chapter it is first necessary to read the [`workflow`](https://paol-imi.github.io/blockly-gamepad/#/workflow) chapter.
 
 
 ## The Maze
 
--   To understand this feature let's take as an example the [Maze](https://paol-imi.github.io/gamepad.js/demo) game. 
+-   To understand this feature let's take as an example the [Maze](https://paol-imi.github.io/blockly-gamepad/demo) game. 
 
 ![](../images/maze.png ":size=370%")
 
@@ -134,7 +134,7 @@ gamepad.forward()
 ```
 
 You `don't need to write any code` to manage old requests.
-I suggest you to see this [demo](https://github.com/Paol-imi/gamepad.js/tree/master/docs/demo) to understand even better how this option work.
+I suggest you to see this [demo](https://github.com/Paol-imi/blockly-gamepad/tree/master/docs/demo) to understand even better how this option work.
 
 ## How it works
 
