@@ -2504,11 +2504,8 @@ Gamepad.JsonManager = class {
     }
 }
 
-/* load the setting */
-Gamepad.setting();
-
 /* Global */
-(function () {
+;(function () {
 
     // Establish the root object, `window` in the browser, or `global` on the server.
     var root = this;
@@ -2526,3 +2523,6 @@ Gamepad.setting();
             Blockly.Gamepad = Gamepad;
     }
 })();
+
+/* load the setting */
+Gamepad.setting();
