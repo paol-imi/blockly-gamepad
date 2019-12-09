@@ -1,5 +1,5 @@
 ![logo](../icons/logo/icon.svg ':size=160%')
-# blockly-gamepad <small>1.0.0</small>
+# blockly-gamepad <small>1.0.1</small>
 
 > A Blockly extension for games.
 

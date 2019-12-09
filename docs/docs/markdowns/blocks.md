@@ -273,7 +273,7 @@ class Game{
 }
 ```
 #### Can he move
-![](../images/can_move.png ":size=150%")
+![](../images/can_move.png ":size=170%")
 
 ```javascript
 'can_move': {
