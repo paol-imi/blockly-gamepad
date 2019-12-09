@@ -1,6 +1,6 @@
 {
   "name": "blockly-gamepad",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A Blockly extension designed to develop games (made with love ❤).",
   "keywords": [
     "gamepad",
