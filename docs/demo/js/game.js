@@ -136,17 +136,17 @@ class Game {
                 y: 1
             },
             {
-                //RIGHT
+                // RIGHT
                 x: 1,
                 y: 0
             },
             {
-                //DOWN
+                // DOWN
                 x: 0,
                 y: -1
             },
             {
-                //LEFT
+                // LEFT
                 x: -1,
                 y: 0
             }

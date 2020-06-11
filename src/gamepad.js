@@ -56,7 +56,7 @@ const Gamepad = class {
             back) this.jsonManager.loadPrior();
 
         // if the request is not old and magicJson is enabled
-        if (this['magicJson'] && old) {
+        if (this['magicJson'] && old && request.method != Gamepad['STATES']['COMPLETED']) {
             // if it's a backward request
             if (back)
                 // unload the changes
@@ -77,7 +77,7 @@ const Gamepad = class {
         ) this.state = request.method;
 
         // if there's the json manager and the request is not old the changes are saved
-        if (this['magicJson'] && !old)
+        if (this['magicJson'] && !old && request.method != Gamepad['STATES']['COMPLETED'])
             this.jsonManager.commit();
 
         // return the game result

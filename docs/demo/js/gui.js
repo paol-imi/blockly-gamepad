@@ -50,12 +50,12 @@ class Gui {
     load(id) {
         // if a new id is passed the old one is updated
         // otherwise the old one is used
-        id ? this.id = id : id = this.id
+        if(id) this.id = id
 
         // kill the old GUI instance
         this.asynchronizer.reset()
         // generate a new GUI instance
-        this.asynchronizer.run(id)
+        this.asynchronizer.run(this.id)
 
         // show/hide the game background
         document.getElementById("1").style.display = this.id == 1 ? 'block' : 'none'
@@ -64,7 +64,7 @@ class Gui {
 
     // remove animation
     removeAnimation() {
-        // ac is the currect instance of the GUI
+        // ac is the current instance of the GUI
         let ac = this.asynchronizer.async, tid
 
         // if the user click the forward/backward buttons 2 or more times within 
@@ -74,7 +74,7 @@ class Gui {
 
     // manage the requests
     manageRequest(request, back) {
-        // ac is the currect instance of the GUI
+        // ac is the current instance of the GUI
         let ac = this.asynchronizer.async
 
         // call the methods of the async properties
