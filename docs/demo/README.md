@@ -1,6 +1,7 @@
 # Demo 🕹️
 
-### This demo is a remake with `blockly-gamepad` of the [Maze](https://blockly-games.appspot.com/maze) game. 
+### This demo is a remake with `blockly-gamepad` of the [Maze](https://blockly-games.appspot.com/maze) game.
+
 ### Clicke [here](https://paol-imi.github.io/blockly-gamepad/demo) to try it, in the console you'll find the state logs. Try the debug right clicking on a block!.
 
 <br>
@@ -13,8 +14,7 @@
 Clone the project to see the commented code.
 
 ```
-git clone https://github.com/Paol-imi/blockly-gamepad.git
+git clone https://github.com/paol-imi/blockly-gamepad.git
 cd docs/demo
 explorer index.html
 ```
-

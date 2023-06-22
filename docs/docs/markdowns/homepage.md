@@ -1,7 +1,7 @@
 ## Blockly-gamepad 🎮
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![GitHub release](https://img.shields.io/github/release/Paol-imi/blockly-gamepad.svg)](https://GitHub.com/Paol-imi/blockly-gamepad/releases/)
+[![GitHub release](https://img.shields.io/github/release/paol-imi/blockly-gamepad.svg)](https://GitHub.com/paol-imi/blockly-gamepad/releases/)
 [![npm version](https://badge.fury.io/js/blockly-gamepad.svg)](https://badge.fury.io/js/blockly-gamepad)
 [![Built on Blockly](https://tinyurl.com/built-on-blockly)](https://github.com/google/blockly)
 
@@ -15,13 +15,13 @@ See the [Quick start](/quickstart.md).
 
 ## Demo 🕹️
 
-Try this [demo](https://paol-imi.github.io/blockly-gamepad/demo), it is a remake with `blockly-gamepad` of the [Maze](https://blockly-games.appspot.com/maze) game. <br> You can find the full code [here](https://github.com/Paol-imi/blockly-gamepad/tree/master/docs/demo).
+Try this [demo](https://paol-imi.github.io/blockly-gamepad/demo), it is a remake with `blockly-gamepad` of the [Maze](https://blockly-games.appspot.com/maze) game. <br> You can find the full code [here](https://github.com/paol-imi/blockly-gamepad/tree/master/docs/demo).
 
 ## Games 🏆
 
--   [The aviator](https://github.com/Paol-imi/the-aviator). If you like it you're officially changelled to solve the final impossible level 😜.
+- [The aviator](https://github.com/paol-imi/the-aviator). If you like it you're officially changelled to solve the final impossible level 😜.
 
--   [Coming soon](). Lot of games coming soon.
+- [Coming soon](). Lot of games coming soon.
 
 ## Tips 💡
 

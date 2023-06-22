@@ -11,15 +11,15 @@
     "await"
   ],
   "main": "src/gamepad.js",
-  "homepage": "https://github.com/Paol-imi/blockly-gamepad#readme",
+  "homepage": "https://github.com/paol-imi/blockly-gamepad#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Paol-imi/blockly-gamepad.git"
+    "url": "git+https://github.com/paol-imi/blockly-gamepad.git"
   },
-  "author": "Paol-imi",
+  "author": "paol-imi",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Paol-imi/blockly-gamepad/issues"
+    "url": "https://github.com/paol-imi/blockly-gamepad/issues"
   },
   "dependencies": {
     "blockly": "^3.20191014.4"

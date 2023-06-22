@@ -7,7 +7,7 @@ Blockly.Gamepad.init({
   toolbox,
   blocks,
   wrap,
-  inputs
+  inputs,
 });
 ```
 
@@ -17,7 +17,7 @@ The xml of the `Blockly` toolbox.
 
 ```javascript
 Blockly.Gamepad.init({
-  toolbox: document.getElementById("toolbox")
+  toolbox: document.getElementById("toolbox"),
 });
 ```
 
@@ -31,8 +31,8 @@ Blockly.Gamepad.init({
     UP: 0,
     RIGHT: 1,
     DOWN: 2,
-    LEFT: 3
-  }
+    LEFT: 3,
+  },
 });
 ```
 
